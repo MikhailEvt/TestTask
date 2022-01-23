@@ -12,9 +12,9 @@ namespace TestTask.Tests
     public class TaskClassTests
     {
         [TestMethod()]
-        public void RandNambTest()
+        public void RandNumbTest()
         {
-            var rn = TaskClass.RandNamb();
+            var rn = TaskClass.RandNumb();
             Assert.IsTrue(rn == 1 || rn == 0);
             
         }
