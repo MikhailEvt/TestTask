@@ -15,7 +15,7 @@ namespace TestTask.Tests
         public void RandNumbTest()
         {
             var rn = TaskClass.RandNumb();
-            Assert.IsTrue(rn == 1 || rn == 0);
+            Assert.IsTrue(rn == 1 || rn == 0,$"Return {rn}.");
             
         }
     }
