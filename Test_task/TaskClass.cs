@@ -4,7 +4,7 @@
     {
         public static int RandNumb() 
         {
-            return new Random().Next(6);
+            return new Random().Next(1);
         }
     }
 }
