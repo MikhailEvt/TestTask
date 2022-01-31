@@ -1,12 +1,12 @@
 pipeline {
     agent {
-        docker { image 'mcr.microsoft.com/dotnet/sdk:6.0-focal' }
+        docker { image 'mcr.microsoft.com/dotnet/sdk:6.0' }
     }
     stages {
   
         stage('Buid') {
             steps {
-                sh 'dotnet build *.sln'
+                sh 'dotnet publish -c release -o out'
             }
         }
         stage('Test') {
