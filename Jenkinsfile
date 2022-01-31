@@ -9,11 +9,11 @@ pipeline {
     } */
     stages {
   
-        stage('Buid') {
+        /*stage('Buid') {
             steps {
                 sh 'dotnet build'
             }
-        }
+        }*/
         stage('Test') {
             steps {
                sh 'dotnet test TestTask.sln --logger \'trx;LogFileName=\$WORKSPACE/Result.trx\''
