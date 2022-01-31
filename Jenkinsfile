@@ -9,7 +9,7 @@ pipeline {
   
         stage('Buid') {
             steps {
-                sh 'dotnet publish -c release -o out'
+                sh 'dotnet build'
             }
         }
         stage('Test') {
