@@ -1,1 +1,1 @@
-Jenkins URL: http://54.164.2.148:8080
+Jenkins URL: http://18.233.5.39:8080
