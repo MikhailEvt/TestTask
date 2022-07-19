@@ -1,0 +1,49 @@
+# Настройка триггеров запуска. Запуск для изменений только в master-ветке
+trigger:
+- master
+
+# Так как установка произвольного ПО в виртуальные машины
+# запрещена, воспользуемся Docker-контейнером,
+# запущенном в виртуальной машине с Windows Server 1803
+pool:
+  vmImage: 'win1803'
+container: microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-1803
+
+steps:
+# Загрузка дистрибутива анализатора
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: 'Invoke-WebRequest 
+               -Uri https://files.pvs-studio.com/PVS-Studio_setup.exe 
+               -OutFile PVS-Studio_setup.exe'
+- task: CmdLine@2
+  inputs:
+    workingDirectory: $(System.DefaultWorkingDirectory)
+    script: |
+# Восстанавливаем проект и скачиваем зависимости
+      nuget restore .\ShareX.sln
+# Создаем директорию, куда будут сохранены файлы с отчетами анализатора
+      md .\PVSTestResults
+# Устанавка анализатора
+      PVS-Studio_setup.exe /VERYSILENT /SUPPRESSMSGBOXES 
+                           /NORESTART /COMPONENTS=Core
+# Регистрация лицензионной информации
+      "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" 
+          credentials 
+          -u $(PVS_USERNAME) 
+          -n $(PVS_KEY)
+# Запуск анализа PVS-Studio
+      "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" 
+         -t .\ShareX.sln  
+         -o .\PVSTestResults\ShareX.plog
+# Преобразование отчета в html формат.
+      "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" 
+         -t html 
+         -o .\PVSTestResults\ 
+         .\PVSTestResults\ShareX.plog
+# Публикация отчетов анализатора
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: PVSTestResults
+    artifactName: PVSTestResults
