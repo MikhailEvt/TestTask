@@ -11,7 +11,7 @@ steps:
     workingDirectory: "D:\\agent"
     script: |
       md .\PVSTestResults
-      "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t "C:\Users\evtihevich\source\repos\SonarSampleCpp\SonarSampleCpp.sln" -o D:\agent\PVSTestResults\TestTask.plog
+      "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t "D:\agent\SonarSampleCs\SonarSampleCs.sln" -o D:\agent\PVSTestResults\TestTask.plog
       "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t html -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog
 - task: PublishBuildArtifacts@1
   inputs:
