@@ -26,3 +26,5 @@ steps:
     script:  |
       & "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t json -a GA:1 -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog 
       IF (((Get-Content "D:\agent\PVSTestResults\TestTask.plog.json") |  ConvertFrom-Json).warnings.Count -eq 0)  {exit 0} ELSE {echo "Analys log file contains hight level warning";exit 1}
+      IF ($exitCode -ne 0) Write-Output ("[Error] Failing task since return code was {0} while expected 0." -f $exitCode)
+      [Environment]::Exit($exitCode)
