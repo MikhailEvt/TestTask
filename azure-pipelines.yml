@@ -22,7 +22,7 @@ steps:
     workingDirectory: $(System.DefaultWorkingDirectory)
     script: |
 # Восстанавливаем проект и скачиваем зависимости
-      nuget restore .\ShareX.sln
+      nuget restore .\TestTask.sln
 # Создаем директорию, куда будут сохранены файлы с отчетами анализатора
       md .\PVSTestResults
 # Устанавка анализатора
