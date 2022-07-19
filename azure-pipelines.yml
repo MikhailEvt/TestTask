@@ -15,5 +15,5 @@ steps:
       "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t html -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: D:\agent
+    pathToPublish: D:\agent\PVSTestResults
     artifactName: PVSTestResults
