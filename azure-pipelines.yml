@@ -13,11 +13,12 @@ steps:
       md .\PVSTestResults
       "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t "D:\agent\SonarSampleCs\SonarSampleCs.sln" -o D:\agent\PVSTestResults\TestTask.plog
       "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t html -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog
-- task : CmdLine@2
+- task : PowerShell@2
   inputs:
     workingDirectory: "D:\\agent"
-    script: >
-      C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t json -a GA:1 -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog && 
+    script:  |
+      C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t json -a GA:1 -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog 
+      ((Get-Content "D:\agent\PVSTestResults\TestTask.plog.json") |  ConvertFrom-Json).warnings.Count -eq 0 
     
 - task: PublishBuildArtifacts@1
   inputs:
