@@ -3,7 +3,7 @@ trigger:
 - master
 
 # Задача запускается на self-hosted агенте из пула 'MyPool' 
-pool: 'Sh'
+pool: 'SHSH'
 
 steps:
 - task: CmdLine@2
