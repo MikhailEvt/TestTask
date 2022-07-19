@@ -10,10 +10,9 @@ steps:
   inputs:
     workingDirectory: $(System.DefaultWorkingDirectory)
     script: |
-      nuget restore .\TestTask.sln
       md .\PVSTestResults
       "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" 
-         -t .\TestTask.sln
+         -t "C:\Users\evtihevich\source\repos\SonarSampleCpp\SonarSampleCpp.sln"
          -o .\PVSTestResults\TestTask.plog
       "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe"
          -t html
