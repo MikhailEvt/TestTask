@@ -17,7 +17,7 @@ steps:
   inputs:
     targetType: 'inline'
     script:  |
-      C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t json -a GA:1 -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog 
+      & "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t json -a GA:1 -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog 
       ((Get-Content "D:\agent\PVSTestResults\TestTask.plog.json") |  ConvertFrom-Json).warnings.Count -eq 0 
     
 - task: PublishBuildArtifacts@1
