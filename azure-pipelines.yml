@@ -21,28 +21,20 @@ steps:
   inputs:
     workingDirectory: $(System.DefaultWorkingDirectory)
     script: |
-# Восстанавливаем проект и скачиваем зависимости
       nuget restore .\TestTask.sln
-# Создаем директорию, куда будут сохранены файлы с отчетами анализатора
       md .\PVSTestResults
-# Устанавка анализатора
       PVS-Studio_setup.exe /VERYSILENT /SUPPRESSMSGBOXES 
                            /NORESTART /COMPONENTS=Core
-# Регистрация лицензионной информации
       "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" 
-          credentials 
-          -u $(PVS_USERNAME) 
+          credentials -u $(PVS_USERNAME) 
           -n $(PVS_KEY)
-# Запуск анализа PVS-Studio
       "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" 
-         -t .\ShareX.sln  
+         -t .\TestTask.sln  
          -o .\PVSTestResults\ShareX.plog
-# Преобразование отчета в html формат.
       "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" 
          -t html 
          -o .\PVSTestResults\ 
          .\PVSTestResults\ShareX.plog
-# Публикация отчетов анализатора
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: PVSTestResults
