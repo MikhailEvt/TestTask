@@ -25,5 +25,5 @@ steps:
     targetType: 'inline'
     script:  |
       & "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t json -a GA:1 -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog 
-      IF (((Get-Content "D:\agent\PVSTestResults\TestTask.plog.json") |  ConvertFrom-Json).warnings.Count -eq 0)  {exit 0} ELSE {Write-Host "##vso[task.logissue type=error]Analys log contains High level warnings." }
+      IF (((Get-Content "D:\agent\PVSTestResults\TestTask.plog.json") |  ConvertFrom-Json).warnings.Count -eq 0)  {exit 0} ELSE {Write-Host "##vso[task.complete result=Failed;]Analys log contains High level warnings." }
   
