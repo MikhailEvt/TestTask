@@ -1,16 +1,13 @@
-# Настройка триггеров запуска. Запуск для изменений только в master-ветке
+
 trigger:
 - master
 
-# Так как установка произвольного ПО в виртуальные машины
-# запрещена, воспользуемся Docker-контейнером,
-# запущенном в виртуальной машине с Windows Server 1803
+
 pool:
   vmImage: 'win1803'
 container: microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-1803
 
 steps:
-# Загрузка дистрибутива анализатора
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
