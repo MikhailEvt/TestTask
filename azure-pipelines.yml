@@ -33,7 +33,7 @@ jobs:
         targetType: 'inline'
         script: |
           $contentType = "application/json";
-          $headers = @{ Authorization = "Bearer $($env:AccessToken)"" };
+          $headers = @{ Authorization = "Bearer $($env:AccessToken)" };
           $uri = "$(System.CollectionUri)$(System.TeamProject)/_apis/git/repositories/MikhailEvt/TestTask/pullrequests/1002038150/attachments/$(Build.ArtifactStagingDirectory)/TestTask.plog.html?api-version=6.0-preview.1";
           Invoke-RestMethod -uri $uri -method POST -Headers $headers -ContentType $contentType 
       env: 
