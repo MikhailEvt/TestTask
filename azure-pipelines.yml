@@ -31,13 +31,9 @@ jobs:
       condition: always()
       inputs : 
         targetType: 'inline'
-        script: |
-          echo "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.ID)/pullrequests/$(System.PullRequest.PullRequestId)/attachments/PVSTestResults?api-version=6.0-preview.1"
-          $PAT= $(System.AccessToken)
-          $base64AuthInfo= [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$($PAT)"))
+        script: curl -u evtihevich:$(System.AccessToken) -X POST https://dev.azure.com/evtihevich/Test2/_apis/git/repositories/MikhailEvt/TestTask/pullrequests/1002038150/attachments/PVSTestResults?api-version=6.0-preview.1
 
-          $url = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.ID)/pullrequests/$(System.PullRequest.PullRequestId)/attachments/PVSTestResults?api-version=6.0-preview.1"
-          Invoke-RestMethod -Uri $url -Method post -Header @{Authorization = "Basic $base64AuthInfo"} -ContentType "application/json"
+
 
  #'az repos pr work-item add --id 2 --work-items PVSTestResults'
   # - job : Invoke
