@@ -27,25 +27,25 @@ jobs:
           & "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t json -a GA:1 -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog --indicateWarnings  --noHelpMessages 
           IF ($LASTEXITCODE -eq 0)  {exit 0} ELSE {Write-Host "##vso[task.logissue type=error]Analys log contains High level warnings."; Write-Host "##vso[task.complete result=Failed;]" }
     
-    - task : PowerShell@2
-      condition: always()
-      inputs : 
-        targetType: 'inline'
-        script: curl -u evtihevich:$(System.AccessToken) -X POST https://dev.azure.com/evtihevich/Test2/_apis/git/repositories/MikhailEvt/TestTask/pullrequests/1002038150/attachments/PVSTestResults?api-version=6.0-preview.1
+    # - task : PowerShell@2
+    #   condition: always()
+    #   inputs : 
+    #     targetType: 'inline'
+    #     script: curl -u evtihevich:$(System.AccessToken) -X POST https://dev.azure.com/evtihevich/Test2/_apis
 
 
 
  #'az repos pr work-item add --id 2 --work-items PVSTestResults'
-  # - job : Invoke
-  #   dependsOn: Analyse
-  #   condition: always()
-  #   steps:
-  #     - task: InvokeRESTAPI@1
-  #       inputs:
-  #         connectionType: 'connectedServiceName'
-  #         method: 'POST'
-  #         urlSuffix: 'git/repositories/450545368/pullRequests/2/attachments/PVSTestResults?api-version=6.0-preview.1'
-  #   pool : server
+  - job : Invoke
+    dependsOn: Analyse
+    condition: always()
+    steps:
+      - task: InvokeRESTAPI@1
+        inputs:
+          connectionType: 'connectedServiceName'
+          method: 'POST'
+          urlSuffix: '/git/repositories/MikhailEvt/TestTask/pullrequests/1002038150/attachments/PVSTestResults?api-version=6.0-preview.1'
+    pool : server
 
 
 # POST $(System.CollectionUri)/$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.ID)/pullRequests/$(System.PullRequest.PullRequestId)/
