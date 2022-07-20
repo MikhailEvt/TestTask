@@ -20,6 +20,10 @@ jobs:
       inputs:
         pathToPublish: D:\agent\PVSTestResults
         artifactName: PVSTestResults
+    - task : PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: D:\agent\PVSTestResults\TestTask.plog.sarif
+        ArtifactName: CodeAnalysisLogs
 
     - task : PowerShell@2
       inputs:
@@ -27,11 +31,7 @@ jobs:
         script:  |
           & "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t json -a GA:1 -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog --indicateWarnings  --noHelpMessages 
           IF ($LASTEXITCODE -eq 0)  {exit 0} ELSE {Write-Host "##vso[task.logissue type=error]Analys log contains High level warnings."; Write-Host "##vso[task.complete result=Failed;]" }
-    - task : PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: D:\agent\PVSTestResults\TestTask.plog.sarif
-        ArtifactName: CodeAnalysisLogs
-
+    
     # - task : PowerShell@2
     #   condition: always()
     #   inputs : 
