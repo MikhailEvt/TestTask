@@ -33,7 +33,8 @@ jobs:
         targetType: 'inline'
         script: |
           $contentType = "application/json";
-          $headers = @{ Authorization = "Basic $(System.AccessToken)" };
+          $base64AuthInfo = [convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0} -f $(System.AccessToken)")))
+          $headers = @{ Authorization = "Basic $base64AuthInfo" };
           $uri = "$(System.CollectionUri)$(System.TeamProject)/_apis/git/repositories/MikhailEvt/TestTask/pullrequests/1002038150/attachments/$(Build.ArtifactStagingDirectory)/TestTask.plog.html?api-version=6.0-preview.1";
           Invoke-RestMethod -uri $uri -method POST -Headers $headers -ContentType $contentType 
 
