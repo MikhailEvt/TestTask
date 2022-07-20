@@ -4,33 +4,39 @@ trigger:
 
 # Задача запускается на self-hosted агенте из пула 'MyPool' 
 pool: 'SHSH'
+jobs: 
+  - job : Analyse
+    steps:
+    - task: CmdLine@2
+      inputs:
+        workingDirectory: "D:\\agent"
+        script: |
+          md .\PVSTestResults
+          "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t "D:\agent\SonarSampleCs\SonarSampleCs.sln" -o D:\agent\PVSTestResults\TestTask.plog
+          "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t html -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog
 
-steps:
-- task: CmdLine@2
-  inputs:
-    workingDirectory: "D:\\agent"
-    script: |
-      md .\PVSTestResults
-      "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t "D:\agent\SonarSampleCs\SonarSampleCs.sln" -o D:\agent\PVSTestResults\TestTask.plog
-      "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t html -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: D:\agent\PVSTestResults
+        artifactName: PVSTestResults
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: D:\agent\PVSTestResults
-    artifactName: PVSTestResults
-
-- task : PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script:  |
-      & "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t json -a GA:1 -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog --indicateWarnings  --noHelpMessages 
-      IF ($LASTEXITCODE -eq 0)  {exit 0} ELSE {Write-Host "##vso[task.logissue type=error]Analys log contains High level warnings."; Write-Host "##vso[task.complete result=Failed;]" }
-  
+    - task : PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script:  |
+          & "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t json -a GA:1 -o D:\agent\PVSTestResults\  D:\agent\PVSTestResults\TestTask.plog --indicateWarnings  --noHelpMessages 
+          IF ($LASTEXITCODE -eq 0)  {exit 0} ELSE {Write-Host "##vso[task.logissue type=error]Analys log contains High level warnings."; Write-Host "##vso[task.complete result=Failed;]" }
+    
+  - job : Invoke
+    dependsOn: Analyse
+    condition: always()
+    steps:
+    - task: InvokeRESTAPI@0
+      inputs:
+        method: 'POST'
+        urlSuffix: '_apis/git/repositories/github.com/MikhailEvt/TestTask/pullRequests/2/attachments/PVSTestResults?api-version=6.0-preview.1'
+        waitForCompletion: 'false'
+    pool : server
 
 # POST $(System.CollectionUri)/$(System.TeamProject))/_apis/git/repositories/$(System.PullRequest.SourceRepositoryURI)/pullRequests/$(System.PullRequest.PullRequestId)/
 # attachments/PVSTestResults?api-version=6.0-preview.1
-- task: InvokeRESTAPI@0
-  inputs:
-    method: 'POST'
-    urlSuffix: '_apis/git/repositories/github.com/MikhailEvt/TestTask/pullRequests/2/attachments/PVSTestResults?api-version=6.0-preview.1'
-    waitForCompletion: 'false'
