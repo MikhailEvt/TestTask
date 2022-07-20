@@ -31,12 +31,11 @@ jobs:
     dependsOn: Analyse
     condition: always()
     steps:
-    - task: InvokeRESTAPI@1
-      inputs:
-        connectionType: 'connectedServiceName'
-        method: 'POST'
-        urlSuffix: 'https://dev.azure.com/evtihevich/Test2/_apis/git/repositories/450545368/pullRequests/2/attachments/PVSTestResults?api-version=6.0-preview.1'
-        waitForCompletion: 'false'
+      - task: InvokeRESTAPI@1
+        inputs:
+          connectionType: 'connectedServiceName'
+          method: 'POST'
+          urlSuffix: 'git/repositories/450545368/pullRequests/2/attachments/PVSTestResults?api-version=6.0-preview.1'
     pool : server
 
 # POST $(System.CollectionUri)/$(System.TeamProject))/_apis/git/repositories/$(System.PullRequest.SourceRepositoryURI)/pullRequests/$(System.PullRequest.PullRequestId)/
