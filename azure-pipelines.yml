@@ -40,11 +40,17 @@ jobs:
     dependsOn: Analyse
     condition: always()
     steps:
-      - task: InvokeRESTAPI@1
+      # - task: InvokeRESTAPI@1
+      #   inputs:
+      #     connectionType: 'connectedServiceName'
+      #     method: 'POST'
+      #     urlSuffix: '
+      - task: AzureFunction@1
         inputs:
-          connectionType: 'connectedServiceName'
+          function: 'https://dev.azure.com/evtihevich/Test2'
+          key: '$(System.AccessToken)'
           method: 'POST'
-          urlSuffix: '/git/repositories/MikhailEvt/TestTask/pullrequests/1002038150/attachments/PVSTestResults?api-version=6.0-preview.1'
+          queryParameters: '/git/repositories/MikhailEvt/TestTask/pullrequests/1002038150/attachments/PVSTestResults?api-version=6.0-preview.1'
     pool : server
 
 
