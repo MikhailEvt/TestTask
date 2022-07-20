@@ -29,9 +29,8 @@ steps:
 
 # POST $(System.CollectionUri)/$(System.TeamProject))/_apis/git/repositories/$(System.PullRequest.SourceRepositoryURI)/pullRequests/$(System.PullRequest.PullRequestId)/
 # attachments/PVSTestResults?api-version=6.0-preview.1
-- task: InvokeRESTAPI@1
+- task: InvokeRESTAPI@0
   inputs:
-    connectionType: 'connectedServiceName'
     method: 'POST'
-    urlSuffix: '_apis/git/repositories/$(System.PullRequest.SourceRepositoryURI)/pullRequests/$(System.PullRequest.PullRequestId)/attachments/PVSTestResults?api-version=6.0-preview.1'
+    urlSuffix: '_apis/git/repositories/github.com/MikhailEvt/TestTask/pullRequests/2/attachments/PVSTestResults?api-version=6.0-preview.1'
     waitForCompletion: 'false'
