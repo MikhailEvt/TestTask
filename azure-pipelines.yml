@@ -14,7 +14,7 @@ jobs:
           md .\PVSTestResults
           "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t ".\SonarSampleCs\SonarSampleCs.sln" -o .\PVSTestResults\TestTask.plog
           "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t html -o .\PVSTestResults\  .\PVSTestResults\TestTask.plog
-          "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t sarif -o .\PVSTestResults\  .\PVSTestResults\TestTask.plog -r $(workingDirectory)\SonarSampleCs
+          "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t sarif -o .\PVSTestResults\  .\PVSTestResults\TestTask.plog -r $(Pipeline.Workspace)\SonarSampleCs
 
     - task: PublishBuildArtifacts@1
       inputs:
