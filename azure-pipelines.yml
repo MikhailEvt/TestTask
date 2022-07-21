@@ -9,19 +9,19 @@ jobs:
     steps:
     - task: CmdLine@2
       inputs:
-        workingDirectory: $(System.DefaultWorkingDirectory)
+        workingDirectory: "D:\\agent"
         script: |
-          "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t "D:\\agent\SonarSampleCs\SonarSampleCs.sln" -s "C:\Users\evtihevich\AppData\Roaming\PVS-Studio\Settings.xml" -o $(System.DefaultWorkingDirectory)\PVSTestResults\TestTask.plog -e $(System.DefaultWorkingDirectory)\SonarSampleCs
-          "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t html -o $(System.DefaultWorkingDirectory)\PVSTestResults\  $(System.DefaultWorkingDirectory)\PVSTestResults\TestTask.plog
-          "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t sarif -o $(System.DefaultWorkingDirectory)\PVSTestResults\  $(System.DefaultWorkingDirectory)\PVSTestResults\TestTask.plog 
+          "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t "D:\\agent\SonarSampleCs\SonarSampleCs.sln" -s "C:\Users\evtihevich\AppData\Roaming\PVS-Studio\Settings.xml" -o D:\\agent\PVSTestResults\TestTask.plog -e D:\\agent\SonarSampleCs
+          "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t html -o D:\\agent\PVSTestResults\  D:\\agent\PVSTestResults\TestTask.plog
+          "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t sarif -o D:\\agent\PVSTestResults\  D:\\agent\PVSTestResults\TestTask.plog 
 
     - task: PublishBuildArtifacts@1
       inputs:
-        pathToPublish: $(System.DefaultWorkingDirectory)\PVSTestResults
+        pathToPublish: D:\\agent\PVSTestResults
         artifactName: PVSTestResults
     - task : PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: $(System.DefaultWorkingDirectory)\PVSTestResults\TestTask.plog.sarif
+        PathtoPublish: D:\\agent\PVSTestResults\TestTask.plog.sarif
         ArtifactName: CodeAnalysisLogs
 
     - task : PowerShell@2
