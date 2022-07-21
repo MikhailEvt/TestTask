@@ -30,7 +30,7 @@ jobs:
         targetType: 'inline'
         script:  |
           & "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t json -a GA:1 -o .\PVSTestResults\  .\PVSTestResults\TestTask.plog --indicateWarnings  --noHelpMessages 
-          IF ($LASTEXITCODE -eq 0)  {exit 0} ELSE {Write-Host "##vso[task.logissue type=error]Analys log contains High level warnings."; Write-Host "##vso[task.complete result=Failed;]" }
+          IF ($LASTEXITCODE -eq 0)  {exit 0} ELSE {Write-Host "##vso[task.logissue type=error]Analys log contains High level warnings."; Write-Host "##vso[task.complete result=Failed;]"; exit 0 }
     
     # - task : PowerShell@2
     #   condition: always()
