@@ -12,9 +12,9 @@ jobs:
         workingDirectory: "D:\\agent"
         script: |
           md .\PVSTestResults
-          "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t ".\SonarSampleCs\SonarSampleCs.sln" -o .\PVSTestResults\TestTask.plog
+          "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t ".\SonarSampleCs\SonarSampleCs.sln" -o .\PVSTestResults\TestTask.plog -e D:\\agent\SonarSampleCs
           "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t html -o .\PVSTestResults\  .\PVSTestResults\TestTask.plog
-          "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t sarif -o .\PVSTestResults\  .\PVSTestResults\TestTask.plog -r $(Pipeline.Workspace)\SonarSampleCs
+          "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t sarif -o .\PVSTestResults\  .\PVSTestResults\TestTask.plog 
 
     - task: PublishBuildArtifacts@1
       inputs:
