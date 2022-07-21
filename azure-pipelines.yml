@@ -13,7 +13,7 @@ jobs:
         script: |
           "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t "D:\\agent\SonarSampleCs\SonarSampleCs.sln" -s "D:\\agent\Settings.xml" -o D:\\agent\PVSTestResults\TestTask.plog 
           "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t html -o D:\\agent\PVSTestResults\  D:\\agent\PVSTestResults\TestTask.plog
-          "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t sarif -o D:\\agent\PVSTestResults\  D:\\agent\PVSTestResults\TestTask.plog -r "D:\\agent\SonarSampleCs"
+          "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t sarif -o D:\\agent\PVSTestResults\  D:\\agent\PVSTestResults\TestTask.plog -r "D\:\\\\agent\SonarSampleCs"
           echo D:\\agent\SonarSampleCs
 
     - task: PublishBuildArtifacts@1
