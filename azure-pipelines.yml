@@ -11,7 +11,6 @@ jobs:
       inputs:
         workingDirectory: $(System.DefaultWorkingDirectory)
         script: |
-          md .\PVSTestResults
           "C:\Program Files (x86)\PVS-Studio\PVS-Studio_Cmd.exe" -t "D:\\agent\SonarSampleCs\SonarSampleCs.sln" -s "C:\Users\evtihevich\AppData\Roaming\PVS-Studio\Settings.xml" -o $(System.DefaultWorkingDirectory)\PVSTestResults\TestTask.plog -e $(System.DefaultWorkingDirectory)\SonarSampleCs
           "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t html -o $(System.DefaultWorkingDirectory)\PVSTestResults\  $(System.DefaultWorkingDirectory)\PVSTestResults\TestTask.plog
           "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t sarif -o $(System.DefaultWorkingDirectory)\PVSTestResults\  $(System.DefaultWorkingDirectory)\PVSTestResults\TestTask.plog 
