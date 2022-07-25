@@ -30,9 +30,8 @@ jobs:
         targetType: 'inline'
         script:  |
           & "C:\Program Files (x86)\PVS-Studio\PlogConverter.exe" -t txt -a GA:1 -o .\PVSTestResults\  .\PVSTestResults\TestTask.plog 
-          $warnings = Get-Content ".\PVSTestResults\TestTask.plog.txt" 
-          echo $warnings
-          Write-Host "##vso[task.logissue type=error] $warnings
+          $warnings = (Get-Content ".\PVSTestResults\TestTask.plog.txt") 
+          Write-Host "##vso[task.logissue type=warning;] $warnings
     
     - task : PowerShell@2
       inputs:
